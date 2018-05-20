@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Smart Insole</string>
+    <string name="ask_something_here">Ask something here</string>
+    <string name="response_string">Placeholder response text</string>
+    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
+    <string name="unknown_device">Unknown device</string>
+    <string name="action_settings">Action settings</string>
+</resources>
