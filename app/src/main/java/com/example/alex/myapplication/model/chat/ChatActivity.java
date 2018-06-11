@@ -37,6 +37,7 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.View
 
     // Image Button
     private ImageButton androidImageButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +46,7 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.View
         toolbar.setTitle(getString(R.string.app_name));
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-        rvChatList = (RecyclerView) findViewById(R.id.rv_chat);
+        rvChatList = findViewById(R.id.rv_chat);
         //etSearchBox = (EditText) findViewById(R.id.et_search_box);
         //etSearchBox.setOnEditorActionListener(searchBoxListener);
 
@@ -60,7 +61,7 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.View
         rvChatList.setAdapter(chatAdapter);
         rvChatList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rvChatList.setItemAnimator(new DefaultItemAnimator());
-        androidImageButton = (ImageButton) findViewById(R.id.imageButton2);
+        androidImageButton = findViewById(R.id.imageButton2);
         androidImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +70,43 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.View
                 startActivity(intent);
             }
         });
+        try {
+            //取的 intent 中的 bundle 物件
+            Bundle bundle =this.getIntent().getExtras();
+            int temperature = bundle.getInt("temperature");
+            int humidity = bundle.getInt("humidity");
+            chatRespond(temperature, humidity);
+        } catch (Exception e) {
+            System.out.println("error to catch");
+        }
+    }
+
+    /**
+     * 根據不同的溫溼度給予相對的回應建議
+     * @param temperature 溫度
+     * @param humidity 濕度
+     */
+    public void chatRespond(int temperature, int humidity) {
+        ChatResponse chatResponse = new ChatResponse();
+        if(temperature == 0 && humidity == 0) {
+            chatResponse.setText("Nothing to Do! " + temperature + " and " + humidity);
+            presenter.bulletin(chatResponse);
+        } else if(temperature == 10 && humidity == 10) {
+            chatResponse.setText("Nothing to Do!"  + temperature + " and " + humidity);
+            presenter.bulletin(chatResponse);
+        } else if (humidity >= 75) {
+            chatResponse.setText("你現在的濕度為" + humidity + "%，現在濕度有點高喔！提供給你除濕的小撇步，" +
+                    "可將蘇打粉做成小除濕包，將它放到鞋子中不只可以除濕還可以防霉喔");
+            presenter.bulletin(chatResponse);
+        } else if(temperature > 21 && humidity >= 62) {
+            chatResponse.setText("你目前鞋子中的溫度為" + temperature + "度，濕度為"
+                    + humidity + "%，在此環境下很適合黴菌生長，提醒你要適時的讓腳通風才不會得香港腳喔!");
+            presenter.bulletin(chatResponse);
+        } else {
+            chatResponse.setText("你目前鞋子中的溫度為" + temperature + "度，濕度為"
+                    + humidity + "%，在此環境下黴菌可能會增長~ 如果可以請脫下鞋子通風一下喔");
+            presenter.bulletin(chatResponse);
+        }
     }
 
     @Override

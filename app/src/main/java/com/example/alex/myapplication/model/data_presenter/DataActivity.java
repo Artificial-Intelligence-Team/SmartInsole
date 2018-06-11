@@ -25,8 +25,8 @@ public class DataActivity extends BlunoLibrary {
     private TextView text3;
     int temperature;
     int humidity;
-    int nowTemperature;
-    int nowHumidity;
+    int nowTemperature = 0;
+    int nowHumidity = 0;
     // Detect Button
     private  Button detectButton;
     private  Button bluetoothButton;
@@ -55,6 +55,12 @@ public class DataActivity extends BlunoLibrary {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(DataActivity.this  , ChatActivity.class);
+                //new 一個 Bundle 物件，並將要傳遞的資料傳入
+                Bundle bundle = new Bundle();
+                bundle.putInt("temperature", nowTemperature);
+                bundle.putInt("humidity", nowHumidity);
+                //將Bundle物件 assign 給 intent
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

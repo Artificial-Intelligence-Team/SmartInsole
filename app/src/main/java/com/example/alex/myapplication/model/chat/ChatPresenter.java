@@ -22,8 +22,13 @@ public class ChatPresenter implements ChatContract.Presenter {
         chatObjects.add(greetingMsg);
         // 測試用
         ChatResponse responseObject = new ChatResponse();
-        responseObject.setText("點選右下角~可以看到很多數據喔^0^...................................................................... ");
+        responseObject.setText("點選右下角~可以看到很多數據喔^0^......................... ");
         chatObjects.add(responseObject);
+    }
+
+    // Bulletin Content.
+    public void bulletin(ChatResponse chatResponse) {
+        chatObjects.add(chatResponse);
     }
 
     @Override
